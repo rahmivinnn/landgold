@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#00A859">
+    <title>LANDGOLD - Blockchain Property Marketplace</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #00A859;
+            --primary-green-dark: #059669;
+            --primary-green-light: #10b981;
+            --background-light: #f8f9fa;
+            --surface-white: #ffffff;
+            --text-dark: #1f2937;
+            --text-medium: #374151;
+            --text-light: #6b7280;
+            --border-light: #e5e7eb;
+            --shadow-light: rgba(0, 0, 0, 0.06);
+            --shadow-medium: rgba(0, 0, 0, 0.1);
+            --radius-small: 8px;
+            --radius-medium: 12px;
+            --radius-large: 16px;
+            --radius-xl: 20px;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 12px;
+            --spacing-lg: 16px;
+            --spacing-xl: 20px;
+            --spacing-xxl: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: var(--background-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        /* Safe Area Handling */
+        .safe-area-top {
+            padding-top: env(safe-area-inset-top);
+        }
+
+        .safe-area-bottom {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .mobile-container {
+            width: 100%;
+            max-width: 375px;
+            height: 812px;
+            background: var(--surface-white);
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            isolation: isolate;
+        }
+
+        @media (max-width: 480px) {
+            .mobile-container {
+                border-radius: 0;
+                max-width: 100%;
+                height: 100vh;
+            }
+            
+            body {
+                padding: 0;
+            }
+        }
+
+        /* Pull to Refresh */
+        .pull-to-refresh {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+            z-index: 5;
+        }
+
+        .pull-to-refresh.active {
+            transform: translateY(0);
+        }
+
+        .refresh-spinner {
+            width: 24px;
+            height: 24px;
+            border: 2px solid transparent;
+            border-top-color: var(--primary-green);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            opacity: 0;
+        }
+
+        .pull-to-refresh.active .refresh-spinner {
+            opacity: 1;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Screen Container */
+        .screen-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .screen {
+            display: none;
+            flex: 1;
+            overflow-y: auto;
+            background: var(--background-light);
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            position: relative;
+            z-index: 3;
+        }
+
+        .screen::-webkit-scrollbar {
+            display: none;
+        }
+
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Home Screen */
+        .home-header {
+            background: var(--surface-white);
+            color: var(--text-dark);
+            padding: 20px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .home-title {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+            color: var(--primary-green);
+            line-height: 1.2;
+        }
+
+        .home-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
+            color: var(--text-medium);
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 16px;
+            padding: 24px 20px;
+        }
+
+        .action-card {
+            flex: 1;
+            background: transparent;
+            border-radius: var(--radius-large);
+            padding: 20px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            transform: translateZ(0);
+            will-change: transform;
+            box-shadow: none;
+        }
+
+        .action-card:active {
+            transform: scale(0.97);
+        }
+
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 12px;
+            font-size: 20px;
+            color: var(--primary-green-dark);
+        }
+
+        .action-label {
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--text-medium);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+            padding: 0 20px 16px;
+        }
+
+        .properties-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            padding: 0 20px 24px;
+        }
+
+        .property-card {
+            background: var(--surface-white);
+            border-radius: var(--radius-large);
+            overflow: hidden;
+            box-shadow: 0 4px 12px var(--shadow-medium);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            transform: translateZ(0);
+            will-change: transform;
+        }
+
+        .property-card:active {
+            transform: scale(0.98);
+        }
+
+        .property-image {
+            height: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .property-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .property-card:active .property-image img {
+            transform: scale(1.05);
+        }
+
+        .verification-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--primary-green);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 8px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .property-content {
+            padding: 12px;
+        }
+
+        .property-name {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        .property-price {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary-green-dark);
+            margin-bottom: 2px;
+        }
+
+        .property-location {
+            font-size: 10px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .property-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .property-area {
+            font-size: 9px;
+            color: var(--text-medium);
+            font-weight: 500;
+        }
+
+        .status-badge {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 8px;
+            font-weight: 600;
+            color: white;
+            background: var(--primary-green);
+        }
+
+        /* Market Screen */
+        .market-header {
+            padding: 20px;
+            background: var(--surface-white);
+            border-bottom: 1px solid var(--border-light);
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 9;
+        }
+
+        .market-title {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .search-bar {
+            padding: 12px 16px;
+            background: var(--surface-white);
+            position: sticky;
+            top: 61px;
+            z-index: 8;
+        }
+
+        .search-input {
+            width: 100%;
+            height: 36px;
+            background: #f3f4f6;
+            border-radius: 18px;
+            padding: 0 14px;
+            border: none;
+            font-size: 14px;
+            color: var(--text-light);
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-green-light);
+        }
+
+        .property-list {
+            padding: 12px 16px;
+            flex: 1;
+        }
+
+        .property-item {
+            background: var(--surface-white);
+            border-radius: var(--radius-medium);
+            margin-bottom: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 4px var(--shadow-light);
+            transition: all 0.2s ease;
+            transform: translateZ(0);
+        }
+
+        .property-item:active {
+            transform: scale(0.99);
+        }
+
+        .property-item-image {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .property-item:active .property-item-image {
+            transform: scale(1.03);
+        }
+
+        .property-item-content {
+            padding: 12px;
+        }
+
+        .property-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .property-item-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-dark);
+            flex: 1;
+            margin-right: 6px;
+            line-height: 1.3;
+        }
+
+        .verified-badge {
+            background: var(--primary-green);
+            width: 24px;
+            height: 24px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .property-item-price {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-green-dark);
+            margin-bottom: 3px;
+        }
+
+        .property-item-location {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .property-item-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .property-item-area {
+            font-size: 12px;
+            color: var(--text-medium);
+            font-weight: 500;
+        }
+
+        /* Dashboard Screen */
+        .dashboard-header {
+            padding: 20px;
+            background: var(--surface-white);
+            border-bottom: 1px solid var(--border-light);
+            text-align: center;
+            position: relative;
+            z-index: 9;
+        }
+
+        .dashboard-title {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .dashboard-content {
+            padding: 16px;
+            flex: 1;
+        }
+
+        .welcome-container {
+            margin-bottom: 16px;
+        }
+
+        .welcome-text {
+            font-size: 16px;
+            color: var(--text-light);
+        }
+
+        .user-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--surface-white);
+            border-radius: var(--radius-medium);
+            padding: 12px;
+            box-shadow: 0 1px 4px var(--shadow-light);
+            transition: all 0.2s ease;
+        }
+
+        .stat-card:active {
+            transform: scale(0.98);
+        }
+
+        .stat-title {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-bottom: 3px;
+        }
+
+        .stat-number {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 3px;
+        }
+
+        .stat-change {
+            font-size: 10px;
+            color: var(--primary-green);
+            font-weight: 500;
+        }
+
+        .section {
+            background: var(--surface-white);
+            border-radius: var(--radius-medium);
+            margin-bottom: 12px;
+            box-shadow: 0 1px 4px var(--shadow-light);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .section-title-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 12px;
+        }
+
+        .action-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 6px;
+            border-radius: var(--radius-medium);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .action-item:active {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        .action-item-icon {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 6px;
+            background: transparent;
+        }
+
+        .action-item-title {
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--text-medium);
+            text-align: center;
+        }
+
+        /* Profile Screen */
+        .profile-header {
+            padding: 20px;
+            background: var(--surface-white);
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 9;
+        }
+
+        .back-button {
+            width: 36px;
+            height: 36px;
+            border-radius: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .back-button:active {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .profile-title {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .profile-content {
+            padding: 16px;
+            flex: 1;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 40px;
+            background: var(--primary-green);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .profile-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .profile-email {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .stats-container {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-box {
+            flex: 1;
+            background: var(--surface-white);
+            border-radius: var(--radius-medium);
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 2px 8px var(--shadow-light);
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .menu-container {
+            background: var(--surface-white);
+            border-radius: var(--radius-medium);
+            overflow: hidden;
+            box-shadow: 0 2px 8px var(--shadow-light);
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid var(--border-light);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:active {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        .menu-text {
+            font-size: 16px;
+            color: var(--text-medium);
+        }
+
+        .menu-arrow {
+            color: var(--text-light);
+        }
+
+        /* Scanner Screen */
+        .scanner-header {
+            padding: 20px;
+            background: var(--surface-white);
+            border-bottom: 1px solid var(--border-light);
+            text-align: center;
+            position: relative;
+            z-index: 9;
+        }
+
+        .scanner-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .scanner-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            flex: 1;
+        }
+
+        .scanner-frame {
+            width: 280px;
+            height: 280px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .scanner-icon {
+            text-align: center;
+            color: var(--primary-green-dark);
+        }
+
+        .scanner-icon-large {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .scanner-text {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .scan-button {
+            background: var(--primary-green);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            font-size: 16px;
+            margin: 20px 0;
+        }
+
+        .scan-button:active {
+            transform: scale(0.97);
+            background: var(--primary-green-dark);
+        }
+
+        .scanner-description {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 14px;
+            max-width: 300px;
+            line-height: 1.4;
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            display: flex;
+            height: 70px;
+            background: var(--surface-white);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            padding: 8px 8px;
+            position: sticky;
+            bottom: 0;
+            z-index: 100;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 10px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            padding: 4px 0;
+            position: relative;
+        }
+
+        .nav-item:active {
+            transform: scale(0.95);
+        }
+
+        .nav-item.active {
+            color: var(--primary-green);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 6px;
+            width: 24px;
+            height: 4px;
+            background: var(--primary-green);
+            border-radius: 2px;
+        }
+
+        .nav-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-item:active .nav-icon {
+            transform: scale(1.1);
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-up {
+            animation: slideUp 0.4s ease forwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading States */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(0, 168, 89, 0.3);
+            border-top-color: var(--primary-green);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+
+        <div class="screen-container">
+            <!-- Pull to Refresh Indicator -->
+            <div class="pull-to-refresh">
+                <div class="refresh-spinner"></div>
+            </div>
+
+            <!-- Home Screen -->
+            <div class="screen active" id="home">
+                <div class="home-header">
+                    <div class="home-title">LANDGOLD</div>
+                    <div class="home-subtitle">Blockchain Property Marketplace</div>
+                </div>
+
+                <div class="quick-actions">
+                    <div class="action-card" data-action="scan">
+                        <div class="action-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <circle cx="11" cy="11" r="8" stroke="var(--primary-green-dark)" stroke-width="2"/>
+                                <path d="m21 21-4.35-4.35" stroke="var(--primary-green-dark)" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="action-label">Scan</div>
+                    </div>
+                    <div class="action-card" data-action="market">
+                        <div class="action-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2z" stroke="#0369a1" stroke-width="2"/>
+                                <path d="M8 21v-4a2 2 0 012-2h4a2 2 0 012 2v4" stroke="#0369a1" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="action-label">Market</div>
+                    </div>
+                    <div class="action-card" data-action="transfer">
+                        <div class="action-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M7 16l4-4-4-4M13 16l4-4-4-4" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="action-label">Transfer</div>
+                    </div>
+                </div>
+
+                <div class="section-title">Featured Properties</div>
+                <div class="properties-grid" id="featuredProperties">
+                    <!-- Featured properties will be generated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Market Screen -->
+            <div class="screen" id="market">
+                <div class="market-header">
+                    <div class="market-title">Marketplace</div>
+                </div>
+
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search properties...">
+                </div>
+
+                <div class="property-list" id="propertyList">
+                    <!-- Properties will be generated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Dashboard Screen -->
+            <div class="screen" id="dashboard">
+                <div class="dashboard-header">
+                    <div class="dashboard-title">Dashboard</div>
+                </div>
+
+                <div class="dashboard-content">
+                    <div class="welcome-container">
+                        <div class="welcome-text">Welcome back,</div>
+                        <div class="user-name">Michael Anderson</div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-title">Properties Verified</div>
+                            <div class="stat-number">1,248</div>
+                            <div class="stat-change">+12%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Transactions</div>
+                            <div class="stat-number">86</div>
+                            <div class="stat-change">+5%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Active Listings</div>
+                            <div class="stat-number">24</div>
+                            <div class="stat-change">-2%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Fraud Prevention</div>
+                            <div class="stat-number">156</div>
+                            <div class="stat-change">+8%</div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-header">
+                            <div class="section-title-text">Quick Actions</div>
+                        </div>
+                        <div class="actions-grid">
+                            <div class="action-item" data-action="scan">
+                                <div class="action-item-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                        <circle cx="11" cy="11" r="8" stroke="var(--primary-green-dark)" stroke-width="2"/>
+                                        <path d="m21 21-4.35-4.35" stroke="var(--primary-green-dark)" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                </div>
+                                <div class="action-item-title">Scan Certificate</div>
+                            </div>
+                            <div class="action-item" data-action="market">
+                                <div class="action-item-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                        <path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2z" stroke="#0369a1" stroke-width="2"/>
+                                        <path d="M8 21v-4a2 2 0 012-2h4a2 2 0 012 2v4" stroke="#0369a1" stroke-width="2"/>
+                                    </svg>
+                                </div>
+                                <div class="action-item-title">View Marketplace</div>
+                            </div>
+                            <div class="action-item" data-action="transfer">
+                                <div class="action-item-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                        <path d="M7 16l4-4-4-4M13 16l4-4-4-4" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <div class="action-item-title">Transfer Property</div>
+                            </div>
+                            <div class="action-item" data-action="boundary">
+                                <div class="action-item-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="var(--text-medium)" stroke-width="2"/>
+                                        <path d="M9 9h6v6H9z" stroke="var(--text-medium)" stroke-width="2"/>
+                                    </svg>
+                                </div>
+                                <div class="action-item-title">Check Boundary</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Screen -->
+            <div class="screen" id="profile">
+                <div class="profile-header">
+                    <div class="back-button">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M19 12H5M12 19l-7-7 7-7" stroke="#1f2937" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="profile-title">Profile</div>
+                    <div style="width: 36px;"></div>
+                </div>
+
+                <div class="profile-content">
+                    <div class="profile-info">
+                        <div class="avatar">JD</div>
+                        <div class="profile-name">Michael Anderson</div>
+                        <div class="profile-email">john.doe@example.com</div>
+                    </div>
+
+                    <div class="stats-container">
+                        <div class="stat-box">
+                            <div class="stat-value">3</div>
+                            <div class="stat-label">Properties Owned</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value">1</div>
+                            <div class="stat-label">Properties Listed</div>
+                        </div>
+                    </div>
+
+                    <div class="menu-container">
+                        <div class="menu-item">
+                            <div class="menu-text">My Properties</div>
+                            <div class="menu-arrow">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M9 18l6-6-6-6" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-text">Transaction History</div>
+                            <div class="menu-arrow">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M9 18l6-6-6-6" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-text">Settings</div>
+                            <div class="menu-arrow">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M9 18l6-6-6-6" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-text">Help & Support</div>
+                            <div class="menu-arrow">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M9 18l6-6-6-6" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-text">Logout</div>
+                            <div class="menu-arrow">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M9 18l6-6-6-6" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scanner Screen -->
+            <div class="screen" id="scanner">
+                <div class="scanner-header">
+                    <div class="scanner-title">Certificate Scanner</div>
+                </div>
+
+                <div class="scanner-content">
+                    <div class="scanner-frame">
+                        <div class="scanner-icon">
+                            <div class="scanner-icon-large">📷</div>
+                            <div class="scanner-text">Position certificate within frame</div>
+                        </div>
+                    </div>
+                    <button class="scan-button">Scan Certificate</button>
+                    <div class="scanner-description">
+                        Place the QR code or barcode of the property certificate in the frame above to verify its authenticity
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Bar -->
+        <div class="nav-bar safe-area-bottom">
+            <div class="nav-item active" data-screen="home">
+                <div class="nav-icon">⌂</div>
+                <div>Home</div>
+            </div>
+            <div class="nav-item" data-screen="market">
+                <div class="nav-icon">⊞</div>
+                <div>Market</div>
+            </div>
+            <div class="nav-item" data-screen="dashboard">
+                <div class="nav-icon">▤</div>
+                <div>Dashboard</div>
+            </div>
+            <div class="nav-item" data-screen="scanner">
+                <div class="nav-icon">📷</div>
+                <div>Scanner</div>
+            </div>
+            <div class="nav-item" data-screen="profile">
+                <div class="nav-icon">◉</div>
+                <div>Profile</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Property data with 100 properties
+        const properties = [
+            {title: "Villa Mewah Jakarta Selatan", price: "Rp 2.500.000.000", location: "Kebayoran Baru, Jakarta", area: "300 m²", image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400", verified: true, status: "Available"},
+            {title: "Tanah Komersial Bandung", price: "Rp 1.800.000.000", location: "Dago, Bandung", area: "500 m²", image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400", verified: true, status: "Available"},
+            {title: "Rumah Minimalis Surabaya", price: "Rp 950.000.000", location: "Gubeng, Surabaya", area: "120 m²", image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=400", verified: false, status: "Under Offer"},
+            {title: "Apartemen Mewah Jakarta Pusat", price: "Rp 3.200.000.000", location: "Sudirman, Jakarta", area: "150 m²", image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400", verified: true, status: "Available"},
+            {title: "Ruko Strategis Medan", price: "Rp 1.200.000.000", location: "Medan Kota, Medan", area: "200 m²", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400", verified: true, status: "Available"},
+            {title: "Villa Pantai Bali", price: "Rp 4.500.000.000", location: "Seminyak, Bali", area: "400 m²", image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400", verified: true, status: "Available"},
+            {title: "Tanah Kavling Bogor", price: "Rp 800.000.000", location: "Sentul, Bogor", area: "600 m²", image: "https://images.unsplash.com/photo-1448630360428-65456885c650?w=400", verified: false, status: "Available"},
+            {title: "Rumah Cluster Bekasi", price: "Rp 750.000.000", location: "Harapan Indah, Bekasi", area: "90 m²", image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400", verified: true, status: "Sold"},
+            {title: "Gedung Perkantoran Yogya", price: "Rp 5.000.000.000", location: "Malioboro, Yogyakarta", area: "800 m²", image: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=400", verified: true, status: "Available"},
+            {title: "Kondominium Semarang", price: "Rp 1.100.000.000", location: "Simpang Lima, Semarang", area: "110 m²", image: "https://images.unsplash.com/photo-1515263487990-61b07816b924?w=400", verified: false, status: "Under Offer"}
+        ];
+
+        // Generate 90 more properties
+        const cities = ["Jakarta", "Bandung", "Surabaya", "Medan", "Bali", "Yogyakarta", "Semarang", "Malang", "Solo", "Palembang"];
+        const types = ["Villa", "Rumah", "Apartemen", "Tanah", "Ruko", "Gedung", "Kondominium", "Townhouse", "Cluster"];
+        const areas = ["Pusat", "Selatan", "Utara", "Timur", "Barat", "Kota"];
+        const images = [
+            "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400",
+            "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400",
+            "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=400",
+            "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400",
+            "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400",
+            "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400",
+            "https://images.unsplash.com/photo-1448630360428-65456885c650?w=400",
+            "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400",
+            "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=400",
+            "https://images.unsplash.com/photo-1515263487990-61b07816b924?w=400"
+        ];
+
+        for (let i = 10; i < 100; i++) {
+            const type = types[Math.floor(Math.random() * types.length)];
+            const city = cities[Math.floor(Math.random() * cities.length)];
+            const area = areas[Math.floor(Math.random() * areas.length)];
+            const price = Math.floor(Math.random() * 4000 + 500) * 1000000;
+            const size = Math.floor(Math.random() * 500 + 80);
+            const verified = Math.random() > 0.3;
+            const statuses = ["Available", "Under Offer", "Sold"];
+            const status = statuses[Math.floor(Math.random() * statuses.length)];
+            
+            properties.push({
+                title: `${type} ${city} ${area}`,
+                price: `Rp ${price.toLocaleString('id-ID')}`,
+                location: `${area}, ${city}`,
+                area: `${size} m²`,
+                image: images[Math.floor(Math.random() * images.length)],
+                verified: verified,
+                status: status
+            });
+        }
+
+        function renderProperties() {
+            const propertyList = document.getElementById('propertyList');
+            propertyList.innerHTML = '';
+            
+            properties.forEach(property => {
+                const propertyItem = document.createElement('div');
+                propertyItem.className = 'property-item';
+                
+                const statusColor = property.status === 'Available' ? '#10b981' : 
+                                  property.status === 'Under Offer' ? '#f59e0b' : '#ef4444';
+                
+                propertyItem.innerHTML = `
+                    <img src="${property.image}" alt="${property.title}" class="property-item-image">
+                    <div class="property-item-content">
+                        <div class="property-item-header">
+                            <div class="property-item-title">${property.title}</div>
+                            ${property.verified ? `
+                                <div class="verified-badge">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                                        <path d="M9 12l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                            ` : '<div style="width: 24px;"></div>'}
+                        </div>
+                        <div class="property-item-price">${property.price}</div>
+                        <div class="property-item-location">${property.location}</div>
+                        <div class="property-item-details">
+                            <div class="property-item-area">${property.area}</div>
+                            <div class="status-badge" style="background: ${statusColor};">${property.status}</div>
+                        </div>
+                    </div>
+                `;
+                
+                propertyList.appendChild(propertyItem);
+            });
+        }
+
+        function showScreen(screenName) {
+            const screens = document.querySelectorAll('.screen');
+            screens.forEach(screen => screen.classList.remove('active'));
+            
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            
+            document.getElementById(screenName).classList.add('active');
+            
+            const activeNavItem = document.querySelector(`[data-screen="${screenName}"]`);
+            if (activeNavItem) {
+                activeNavItem.classList.add('active');
+            }
+            
+            if (screenName === 'market') {
+                renderProperties();
+            }
+        }
+
+        // Pull to Refresh Implementation
+        let startY = 0;
+        let currentY = 0;
+        let isRefreshing = false;
+
+        function initPullToRefresh() {
+            const screenContainer = document.querySelector('.screen-container');
+            const pullIndicator = document.querySelector('.pull-to-refresh');
+            
+            screenContainer.addEventListener('touchstart', (e) => {
+                if (window.scrollY === 0) {
+                    startY = e.touches[0].clientY;
+                }
+            });
+            
+            screenContainer.addEventListener('touchmove', (e) => {
+                if (window.scrollY === 0 && !isRefreshing) {
+                    currentY = e.touches[0].clientY;
+                    const diff = currentY - startY;
+                    
+                    if (diff > 0) {
+                        e.preventDefault();
+                        pullIndicator.style.transform = `translateY(${-60 + Math.min(diff / 3, 60)}px)`;
+                        
+                        if (diff > 100) {
+                            pullIndicator.classList.add('active');
+                        } else {
+                            pullIndicator.classList.remove('active');
+                        }
+                    }
+                }
+            });
+            
+            screenContainer.addEventListener('touchend', () => {
+                if (window.scrollY === 0 && !isRefreshing) {
+                    const diff = currentY - startY;
+                    
+                    if (diff > 100) {
+                        isRefreshing = true;
+                        pullIndicator.classList.add('active');
+                        
+                        // Simulate refresh
+                        setTimeout(() => {
+                            pullIndicator.style.transform = 'translateY(-100%)';
+                            pullIndicator.classList.remove('active');
+                            isRefreshing = false;
+                            
+                            // Show refresh feedback
+                            alert('Refreshed!');
+                        }, 1500);
+                    } else {
+                        pullIndicator.style.transform = 'translateY(-100%)';
+                        pullIndicator.classList.remove('active');
+                    }
+                }
+            });
+        }
+
+        // Generate featured properties
+        function generateFeaturedProperties() {
+            const featuredPropertiesGrid = document.getElementById('featuredProperties');
+            
+            // Use the first 50 properties from our main properties array
+            const featured = properties.slice(0, 50);
+            
+            featured.forEach(property => {
+                const propertyCard = document.createElement('div');
+                propertyCard.className = 'property-card';
+                
+                const statusColor = property.status === 'Available' ? '#10b981' : 
+                                  property.status === 'Under Offer' ? '#f59e0b' : '#ef4444';
+                
+                propertyCard.innerHTML = `
+                    <div class="property-image">
+                        <img src="${property.image}" alt="${property.title}">
+                        ${property.verified ? `
+                            <div class="verification-badge">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+                                    <path d="M9 12l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Verified
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div class="property-content">
+                        <div class="property-name">${property.title}</div>
+                        <div class="property-price">${property.price}</div>
+                        <div class="property-location">${property.location}</div>
+                        <div class="property-details">
+                            <div class="property-area">${property.area}</div>
+                            <div class="status-badge" style="background: ${statusColor};">${property.status}</div>
+                        </div>
+                    </div>
+                `;
+                
+                featuredPropertiesGrid.appendChild(propertyCard);
+            });
+        }
+
+        // Add event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const screenName = this.getAttribute('data-screen');
+                    showScreen(screenName);
+                });
+            });
+            
+            const actionCards = document.querySelectorAll('.action-card');
+            actionCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const action = this.getAttribute('data-action');
+                    if (action === 'market') {
+                        showScreen('market');
+                    } else if (action === 'scan') {
+                        showScreen('scanner');
+                    } else if (action === 'transfer') {
+                        // Could show transfer modal or screen
+                        alert('Transfer action clicked');
+                    }
+                });
+            });
+            
+            const actionItems = document.querySelectorAll('.action-item');
+            actionItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const action = this.getAttribute('data-action');
+                    if (action === 'market') {
+                        showScreen('market');
+                    } else if (action === 'scan') {
+                        showScreen('scanner');
+                    } else if (action === 'transfer') {
+                        // Could show transfer modal or screen
+                        alert('Transfer action clicked');
+                    } else if (action === 'boundary') {
+                        // Could show boundary checker
+                        alert('Boundary check action clicked');
+                    }
+                });
+            });
+            
+            const backButton = document.querySelector('.back-button');
+            if (backButton) {
+                backButton.addEventListener('click', () => showScreen('home'));
+            }
+            
+            const scanButton = document.querySelector('.scan-button');
+            if (scanButton) {
+                scanButton.addEventListener('click', () => {
+                    // Simulate scanning
+                    scanButton.textContent = 'Scanning...';
+                    scanButton.disabled = true;
+                    
+                    setTimeout(() => {
+                        scanButton.textContent = 'Scan Certificate';
+                        scanButton.disabled = false;
+                        alert('Certificate scanned successfully!');
+                    }, 2000);
+                });
+            }
+            
+            renderProperties();
+            generateFeaturedProperties();
+            initPullToRefresh();
+        });
+    </script>
+</body>
+</html>

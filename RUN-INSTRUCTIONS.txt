@@ -1,0 +1,66 @@
+LANDGOLD MOBILE APP - RUN INSTRUCTIONS
+=====================================
+
+To run the LANDGOLD mobile app directly on your device or emulator:
+
+PREREQUISITES:
+==============
+1. Node.js (version 14 or higher)
+2. For Android: Android Studio with Android SDK
+3. For iOS: Xcode (macOS only)
+4. React Native CLI (installed globally)
+
+RUNNING THE APP:
+================
+
+ANDROID:
+--------
+1. Connect an Android device via USB with debugging enabled
+   OR
+   Start an Android Emulator from Android Studio
+
+2. Open terminal/command prompt in the project folder
+
+3. Run the following command:
+   npx react-native run-android
+
+4. The app will build and install on your device/emulator
+
+
+IOS (macOS only):
+-----------------
+1. Open terminal in the project folder
+
+2. Install CocoaPods dependencies (first time only):
+   cd ios && pod install && cd ..
+
+3. Run the following command:
+   npx react-native run-ios
+
+4. The app will build and launch in the iOS Simulator
+
+
+DEVELOPMENT SERVER:
+===================
+To start the development server without building the app:
+
+npx react-native start
+
+This will start the Metro bundler which serves the JavaScript bundle to the app.
+
+
+TROUBLESHOOTING:
+================
+If you encounter issues:
+
+1. Clear cache:
+   npx react-native start --reset-cache
+
+2. Clean build (Android):
+   cd android && ./gradlew clean && cd ..
+
+3. Reinstall dependencies:
+   rm -rf node_modules && npm install
+
+4. For iOS, also clean Pods:
+   cd ios && rm -rf Pods/ && rm Podfile.lock && pod install && cd ..

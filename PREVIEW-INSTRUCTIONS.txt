@@ -1,0 +1,28 @@
+LANDGOLD MOBILE APP PREVIEW INSTRUCTIONS
+========================================
+
+To view the LANDGOLD mobile app preview:
+
+1. DOUBLE-CLICK on the file named:
+   "landgold-preview.html"
+   
+   OR
+   
+2. Open your web browser (Chrome, Firefox, Edge, etc.)
+   Then drag and drop the "landgold-preview.html" file 
+   into the browser window
+
+The preview includes:
+- Splash screen with light green background and diagonal elements
+- All 20 core features displayed in a responsive grid
+- Instructions for running the full application
+- Responsive design that works on desktop and mobile browsers
+
+Note: This is a static preview showing the UI design. The full application includes interactive features, blockchain integration, and camera functionality that require running on a mobile device or emulator.
+
+For the full interactive application:
+1. Install Node.js if not already installed
+2. Open terminal/command prompt in the project folder
+3. Run: npm install
+4. For Android: npx react-native run-android
+5. For iOS: npx react-native run-ios

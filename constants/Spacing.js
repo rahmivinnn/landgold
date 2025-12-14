@@ -1,0 +1,23 @@
+export default {
+  XS: 4,
+  SM: 8,
+  MD: 16,
+  LG: 24,
+  XL: 32,
+  XXL: 40,
+  
+  HEADER_HEIGHT: 80,
+  BOTTOM_NAV_HEIGHT: 80,
+  SAFE_AREA_TOP: 8,
+  SAFE_AREA_BOTTOM: 32,
+  
+  CARD_MARGIN: 8,
+  CARD_PADDING: 16,
+  CARD_GAP: 8,
+  
+  SECTION_MARGIN: 16,
+  SECTION_PADDING: 16,
+  
+  DROPDOWN_OFFSET: 80,
+  DROPDOWN_MARGIN: 15,
+};

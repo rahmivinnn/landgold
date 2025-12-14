@@ -1,12 +1,14 @@
 [build]
-  command = "echo 'Building static site'"
+  command = "echo 'No build required'"
   publish = "/"
   
 [build.processing]
   skip_processing = true
   
 [build.environment]
-  NODE_VERSION = "18"
+  NODE_ENV = "production"
+  NETLIFY_USE_YARN = "false"
+  NPM_FLAGS = "--no-install"
 
 [[redirects]]
   from = "/*"

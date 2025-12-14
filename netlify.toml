@@ -1,0 +1,14 @@
+[build]
+  command = "echo 'Building static site'"
+  publish = "/"
+  
+[build.processing]
+  skip_processing = true
+  
+[build.environment]
+  NODE_VERSION = "18"
+
+[[redirects]]
+  from = "/*"
+  to = "/enhanced-landgold-app.html"
+  status = 200

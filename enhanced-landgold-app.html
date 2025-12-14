@@ -904,6 +904,15 @@
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
+        
+        .scanner-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(0, 168, 89, 0.3);
+            border-top-color: var(--primary-green);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
     </style>
 </head>
 <body>
@@ -1281,6 +1290,291 @@
                 renderProperties();
             }
         }
+        
+        // Function to show property details
+        function showPropertyDetails() {
+            // Create a modal for property details
+            const modal = document.createElement('div');
+            modal.id = 'propertyModal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 16px; padding: 20px; max-width: 90%; width: 340px; max-height: 90%; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h2 style="margin: 0; color: var(--text-dark); font-size: 20px;">Property Details</h2>
+                        <button onclick="closeModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-medium);">&times;</button>
+                    </div>
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400" alt="Property" style="width: 100%; height: 180px; object-fit: cover; border-radius: 12px;">
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <h3 style="margin: 0 0 5px 0; color: var(--text-dark); font-size: 18px;">Villa Mewah Jakarta Selatan</h3>
+                        <p style="margin: 0 0 10px 0; color: var(--primary-green); font-weight: 600; font-size: 16px;">Rp 2.500.000.000</p>
+                        <p style="margin: 0; color: var(--text-medium); font-size: 14px;">Kebayoran Baru, Jakarta • 300 m²</p>
+                    </div>
+                    <div style="background: #f8f9fa; border-radius: 12px; padding: 15px; margin-bottom: 20px;">
+                        <h4 style="margin: 0 0 10px 0; color: var(--text-dark); font-size: 16px;">Blockchain Verification</h4>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="color: var(--text-medium); font-size: 14px;">Certificate ID:</span>
+                            <span style="color: var(--text-dark); font-size: 14px; font-weight: 500;">LG-2023-00147</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="color: var(--text-medium); font-size: 14px;">Verified:</span>
+                            <span style="color: var(--primary-green); font-size: 14px; font-weight: 500;">✓ Authentic</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-medium); font-size: 14px;">Timestamp:</span>
+                            <span style="color: var(--text-dark); font-size: 14px; font-weight: 500;">Dec 14, 2023 14:30 UTC</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button onclick="closeModal()" style="flex: 1; padding: 12px; border-radius: 12px; border: 1px solid var(--border-light); background: white; color: var(--text-dark); font-weight: 500; cursor: pointer;">Close</button>
+                        <button onclick="initiateTransfer()" style="flex: 1; padding: 12px; border-radius: 12px; border: none; background: var(--primary-green); color: white; font-weight: 500; cursor: pointer;">Transfer</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+        
+        // Function to close modal
+        function closeModal() {
+            const modal = document.getElementById('propertyModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+        
+        // Function to initiate transfer from modal
+        function initiateTransfer() {
+            closeModal();
+            handleTransfer();
+        }
+        
+        // Function to handle transfer action
+        function handleTransfer() {
+            // Create a modal for transfer form
+            const modal = document.createElement('div');
+            modal.id = 'transferModal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 16px; padding: 20px; max-width: 90%; width: 340px; max-height: 90%; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h2 style="margin: 0; color: var(--text-dark); font-size: 20px;">Property Transfer</h2>
+                        <button onclick="closeTransferModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-medium);">&times;</button>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <p style="margin: 0 0 15px 0; color: var(--text-medium); font-size: 14px;">Transferring ownership of:</p>
+                        <div style="display: flex; align-items: center; background: #f8f9fa; border-radius: 12px; padding: 12px;">
+                            <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400" alt="Property" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; margin-right: 12px;">
+                            <div>
+                                <h3 style="margin: 0 0 3px 0; color: var(--text-dark); font-size: 16px;">Villa Mewah Jakarta Selatan</h3>
+                                <p style="margin: 0; color: var(--text-medium); font-size: 13px;">Kebayoran Baru, Jakarta</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 6px; color: var(--text-dark); font-size: 14px; font-weight: 500;">Recipient Wallet Address</label>
+                        <input type="text" placeholder="Enter recipient's wallet address" style="width: 100%; padding: 12px; border: 1px solid var(--border-light); border-radius: 12px; font-size: 14px;">
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 6px; color: var(--text-dark); font-size: 14px; font-weight: 500;">Recipient Name</label>
+                        <input type="text" placeholder="Enter recipient's full name" style="width: 100%; padding: 12px; border: 1px solid var(--border-light); border-radius: 12px; font-size: 14px;">
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 6px; color: var(--text-dark); font-size: 14px; font-weight: 500;">Transaction Fee</label>
+                        <div style="background: #f8f9fa; border-radius: 12px; padding: 12px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span style="color: var(--text-medium); font-size: 14px;">Network Fee:</span>
+                                <span style="color: var(--text-dark); font-size: 14px;">0.002 ETH</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: var(--text-medium); font-size: 14px;">Platform Fee:</span>
+                                <span style="color: var(--text-dark); font-size: 14px;">0.001 ETH</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button onclick="closeTransferModal()" style="flex: 1; padding: 12px; border-radius: 12px; border: 1px solid var(--border-light); background: white; color: var(--text-dark); font-weight: 500; cursor: pointer;">Cancel</button>
+                        <button onclick="confirmTransfer()" style="flex: 1; padding: 12px; border-radius: 12px; border: none; background: var(--primary-green); color: white; font-weight: 500; cursor: pointer;">Confirm Transfer</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+        
+        // Function to close transfer modal
+        function closeTransferModal() {
+            const modal = document.getElementById('transferModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+        
+        // Function to confirm transfer
+        function confirmTransfer() {
+            closeTransferModal();
+            // Show confirmation
+            alert('Property transfer initiated!\n\nTransaction ID: 0x7f3a...9c2b\nStatus: Pending\n\nYou will receive a notification when the transfer is complete.');
+        }
+        
+        // Function to handle boundary check
+        function handleBoundaryCheck() {
+            // Create a modal for boundary check
+            const modal = document.createElement('div');
+            modal.id = 'boundaryModal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 16px; padding: 20px; max-width: 90%; width: 340px; max-height: 90%; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h2 style="margin: 0; color: var(--text-dark); font-size: 20px;">Boundary Check</h2>
+                        <button onclick="closeBoundaryModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-medium);">&times;</button>
+                    </div>
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <div style="width: 100%; height: 200px; background: #f8f9fa; border-radius: 12px; display: flex; justify-content: center; align-items: center; margin-bottom: 15px;">
+                            <div>
+                                <div style="font-size: 40px; margin-bottom: 10px;">🗺️</div>
+                                <p style="margin: 0; color: var(--text-medium);">Property Map Visualization</p>
+                            </div>
+                        </div>
+                        <p style="margin: 0; color: var(--text-medium); font-size: 14px;">Villa Mewah Jakarta Selatan</p>
+                        <p style="margin: 5px 0 0 0; color: var(--text-light); font-size: 13px;">Kebayoran Baru, Jakarta • 300 m²</p>
+                    </div>
+                    <div style="background: #f8f9fa; border-radius: 12px; padding: 15px; margin-bottom: 20px;">
+                        <h4 style="margin: 0 0 10px 0; color: var(--text-dark); font-size: 16px;">Boundary Analysis</h4>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="color: var(--text-medium); font-size: 14px;">Status:</span>
+                            <span style="color: var(--primary-green); font-size: 14px; font-weight: 500;">✓ Confirmed</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="color: var(--text-medium); font-size: 14px;">Coordinates:</span>
+                            <span style="color: var(--text-dark); font-size: 14px; font-weight: 500;">6°15'S, 106°48'E</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="color: var(--text-medium); font-size: 14px;">Adjacent Properties:</span>
+                            <span style="color: var(--text-dark); font-size: 14px; font-weight: 500;">4 verified</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-medium); font-size: 14px;">Disputes:</span>
+                            <span style="color: var(--primary-green); font-size: 14px; font-weight: 500;">None</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button onclick="closeBoundaryModal()" style="flex: 1; padding: 12px; border-radius: 12px; border: 1px solid var(--border-light); background: white; color: var(--text-dark); font-weight: 500; cursor: pointer;">Close</button>
+                        <button onclick="exportBoundaryReport()" style="flex: 1; padding: 12px; border-radius: 12px; border: none; background: var(--primary-green); color: white; font-weight: 500; cursor: pointer;">Export Report</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+        
+        // Function to close boundary modal
+        function closeBoundaryModal() {
+            const modal = document.getElementById('boundaryModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+        
+        // Function to export boundary report
+        function exportBoundaryReport() {
+            closeBoundaryModal();
+            alert('Boundary report exported successfully!\n\nThe report has been sent to your email and is available in your documents.');
+        }
+        
+        // Function to filter properties based on search term
+        function filterProperties(searchTerm) {
+            const propertyList = document.getElementById('propertyList');
+            const filteredProperties = properties.filter(property => 
+                property.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                property.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                property.price.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            
+            // Clear current list
+            propertyList.innerHTML = '';
+            
+            // Show filtered properties
+            if (filteredProperties.length === 0) {
+                propertyList.innerHTML = `
+                    <div style="text-align: center; padding: 40px 20px;">
+                        <div style="font-size: 40px; margin-bottom: 15px;">🔍</div>
+                        <h3 style="margin: 0 0 10px 0; color: var(--text-dark);">No properties found</h3>
+                        <p style="margin: 0; color: var(--text-medium);">Try adjusting your search terms</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredProperties.forEach(property => {
+                const propertyItem = document.createElement('div');
+                propertyItem.className = 'property-item';
+                
+                const statusColor = property.status === 'Available' ? '#10b981' : 
+                                  property.status === 'Under Offer' ? '#f59e0b' : '#ef4444';
+                
+                propertyItem.innerHTML = `
+                    <img src="${property.image}" alt="${property.title}" class="property-item-image">
+                    <div class="property-item-content">
+                        <div class="property-item-header">
+                            <div class="property-item-title">${property.title}</div>
+                            ${property.verified ? `
+                                <div class="verified-badge">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                                        <path d="M9 12l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                            ` : '<div style="width: 24px;"></div>'}
+                        </div>
+                        <div class="property-item-price">${property.price}</div>
+                        <div class="property-item-location">${property.location}</div>
+                        <div class="property-item-details">
+                            <div class="property-item-area">${property.area}</div>
+                            <div class="status-badge" style="background: ${statusColor};">${property.status}</div>
+                        </div>
+                    </div>
+                `;
+                
+                propertyList.appendChild(propertyItem);
+            });
+        }
 
         // Pull to Refresh Implementation
         let startY = 0;
@@ -1382,6 +1676,17 @@
         }
 
         // Add event listeners
+        // Close modals when clicking outside
+        document.addEventListener('click', function(event) {
+            const modals = ['propertyModal', 'transferModal', 'boundaryModal'];
+            modals.forEach(modalId => {
+                const modal = document.getElementById(modalId);
+                if (modal && event.target === modal) {
+                    modal.remove();
+                }
+            });
+        });
+        
         document.addEventListener('DOMContentLoaded', function() {
             const navItems = document.querySelectorAll('.nav-item');
             navItems.forEach(item => {
@@ -1390,6 +1695,14 @@
                     showScreen(screenName);
                 });
             });
+            
+            // Add search functionality
+            const searchInput = document.querySelector('.search-input');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    filterProperties(this.value);
+                });
+            }
             
             const actionCards = document.querySelectorAll('.action-card');
             actionCards.forEach(card => {
@@ -1400,8 +1713,7 @@
                     } else if (action === 'scan') {
                         showScreen('scanner');
                     } else if (action === 'transfer') {
-                        // Could show transfer modal or screen
-                        alert('Transfer action clicked');
+                        handleTransfer();
                     }
                 });
             });
@@ -1415,11 +1727,9 @@
                     } else if (action === 'scan') {
                         showScreen('scanner');
                     } else if (action === 'transfer') {
-                        // Could show transfer modal or screen
-                        alert('Transfer action clicked');
+                        handleTransfer();
                     } else if (action === 'boundary') {
-                        // Could show boundary checker
-                        alert('Boundary check action clicked');
+                        handleBoundaryCheck();
                     }
                 });
             });
@@ -1432,15 +1742,49 @@
             const scanButton = document.querySelector('.scan-button');
             if (scanButton) {
                 scanButton.addEventListener('click', () => {
-                    // Simulate scanning
+                    // Simulate scanning with progress
                     scanButton.textContent = 'Scanning...';
                     scanButton.disabled = true;
                     
+                    // Show scanning animation
+                    const scannerFrame = document.querySelector('.scanner-frame');
+                    scannerFrame.innerHTML = `
+                        <div style="text-align: center; color: var(--primary-green);">
+                            <div class="scanner-icon-large" style="font-size: 60px; margin-bottom: 20px;">📷</div>
+                            <div class="scanner-text" style="margin-bottom: 20px;">Scanning certificate...</div>
+                            <div class="scanner-spinner" style="margin: 0 auto;"></div>
+                        </div>
+                    `;
+                    
                     setTimeout(() => {
-                        scanButton.textContent = 'Scan Certificate';
+                        // Show success result
+                        scannerFrame.innerHTML = `
+                            <div style="text-align: center; color: var(--text-dark); padding: 20px;">
+                                <div style="font-size: 60px; margin-bottom: 20px; color: var(--primary-green);">✓</div>
+                                <div class="scanner-text" style="margin-bottom: 10px; font-weight: 600;">Certificate Verified</div>
+                                <div style="font-size: 14px; color: var(--text-medium); margin-bottom: 20px;">
+                                    Property: Villa Mewah Jakarta Selatan<br>
+                                    Status: Authenticated<br>
+                                    Owner: Michael Anderson
+                                </div>
+                                <button class="scan-button" style="margin-top: 10px;" onclick="showPropertyDetails()">View Details</button>
+                            </div>
+                        `;
+                        
+                        scanButton.textContent = 'Scan Another Certificate';
                         scanButton.disabled = false;
-                        alert('Certificate scanned successfully!');
-                    }, 2000);
+                        scanButton.onclick = null; // Remove previous event listener
+                        scanButton.addEventListener('click', () => {
+                            // Reset to initial state
+                            scannerFrame.innerHTML = `
+                                <div class="scanner-icon">
+                                    <div class="scanner-icon-large">📷</div>
+                                    <div class="scanner-text">Position certificate within frame</div>
+                                </div>
+                            `;
+                            scanButton.textContent = 'Scan Certificate';
+                        });
+                    }, 3000);
                 });
             }
             

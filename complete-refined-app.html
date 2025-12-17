@@ -1313,12 +1313,30 @@
             const statuses = ["Available", "Under Offer", "Sold"];
             const status = statuses[Math.floor(Math.random() * statuses.length)];
             
+            // Select image based on property type
+            let image;
+            if (type === "Kondominium" || type === "Apartemen") {
+                // Specific images for condominiums and apartments
+                const condoImages = [
+                    "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400",
+                    "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=400",
+                    "https://images.unsplash.com/photo-1523522577247-3a3bb93b3c04?w=400",
+                    "https://images.unsplash.com/photo-1522708220587-3b9fae8809af?w=400",
+                    "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=400",
+                    "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400"
+                ];
+                image = condoImages[Math.floor(Math.random() * condoImages.length)];
+            } else {
+                // Generic images for other property types
+                image = images[Math.floor(Math.random() * images.length)];
+            }
+            
             properties.push({
                 title: `${type} ${city} ${area}`,
                 price: `Rp ${price.toLocaleString('id-ID')}`,
                 location: `${area}, ${city}`,
                 area: `${size} m²`,
-                image: images[Math.floor(Math.random() * images.length)],
+                image: image,
                 verified: verified,
                 status: status
             });

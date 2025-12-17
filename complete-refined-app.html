@@ -1188,6 +1188,137 @@
             </div>
         </div>
 
+        <!-- Transfer Screen -->
+        <div class="screen" id="transfer">
+            <div class="profile-header">
+                <div class="back-button">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="profile-title">Property Transfer</div>
+                <div style="width: 40px;"></div>
+            </div>
+
+            <div class="profile-content">
+                <div class="property-detail-info">
+                    <div class="property-detail-title" style="font-size: 22px; font-weight: 700; color: var(--text-dark); margin: 20px 0 30px; text-align: center;">
+                        Transfer Property Ownership
+                    </div>
+                    
+                    <div class="transfer-form" style="background: var(--surface-white); border-radius: var(--radius-medium); padding: 20px; box-shadow: 0 2px 8px var(--shadow-light); border: 1px solid var(--border-light); margin-bottom: 25px;">
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label style="display: block; font-size: 16px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">Property</label>
+                            <select style="width: 100%; padding: 12px; border: 1px solid var(--border-light); border-radius: 8px; font-size: 15px; color: var(--text-medium); background: var(--surface-white);">
+                                <option>Select a property</option>
+                                <option>Villa Mewah Jakarta</option>
+                                <option>Tanah Komersial Bandung</option>
+                                <option>Rumah Minimalis Surabaya</option>
+                                <option>Apartemen Mewah Jakarta Pusat</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label style="display: block; font-size: 16px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">Recipient's Email</label>
+                            <input type="email" placeholder="Enter recipient's email" style="width: 100%; padding: 12px; border: 1px solid var(--border-light); border-radius: 8px; font-size: 15px; color: var(--text-medium); background: var(--surface-white);">
+                        </div>
+                        
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label style="display: block; font-size: 16px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">Message (Optional)</label>
+                            <textarea placeholder="Add a personal message" rows="4" style="width: 100%; padding: 12px; border: 1px solid var(--border-light); border-radius: 8px; font-size: 15px; color: var(--text-medium); background: var(--surface-white); resize: vertical;"></textarea>
+                        </div>
+                        
+                        <button class="transfer-button" style="width: 100%; background: linear-gradient(135deg, var(--primary-green-dark) 0%, var(--primary-green-light) 100%); color: white; padding: 15px; border-radius: var(--radius-medium); font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; font-size: 16px;">
+                            Initiate Transfer
+                        </button>
+                    </div>
+                    
+                    <div class="info-section" style="background: #f0f9ff; border-radius: var(--radius-medium); padding: 20px; border: 1px solid #bae6fd; margin-bottom: 25px;">
+                        <div class="info-title" style="font-size: 18px; font-weight: 700; color: var(--text-dark); margin-bottom: 15px; display: flex; align-items: center;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="margin-right: 10px; color: #0ea5e9;">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                <path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            How Property Transfer Works
+                        </div>
+                        <ul style="padding-left: 20px; color: var(--text-medium);">
+                            <li style="margin-bottom: 10px;">Select the property you want to transfer</li>
+                            <li style="margin-bottom: 10px;">Enter the recipient's email address</li>
+                            <li style="margin-bottom: 10px;">The recipient will receive an invitation to accept the transfer</li>
+                            <li style="margin-bottom: 10px;">Both parties will need to confirm the transfer on the blockchain</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Boundary Checker Screen -->
+        <div class="screen" id="boundary">
+            <div class="profile-header">
+                <div class="back-button">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="profile-title">Boundary Check</div>
+                <div style="width: 40px;"></div>
+            </div>
+
+            <div class="profile-content">
+                <div class="property-detail-info">
+                    <div class="property-detail-title" style="font-size: 22px; font-weight: 700; color: var(--text-dark); margin: 20px 0 30px; text-align: center;">
+                        Check Property Boundaries
+                    </div>
+                    
+                    <div class="boundary-map" style="background: #e5e7eb; border-radius: var(--radius-medium); height: 250px; display: flex; justify-content: center; align-items: center; margin-bottom: 25px; border: 1px solid var(--border-light);">
+                        <div style="text-align: center; color: var(--text-medium);">
+                            <div style="font-size: 50px; margin-bottom: 15px;">🗺️</div>
+                            <div style="font-size: 18px; font-weight: 600; margin-bottom: 10px;">Interactive Map</div>
+                            <div style="font-size: 14px;">Map showing property boundaries would appear here</div>
+                        </div>
+                    </div>
+                    
+                    <div class="boundary-info" style="background: var(--surface-white); border-radius: var(--radius-medium); padding: 20px; box-shadow: 0 2px 8px var(--shadow-light); border: 1px solid var(--border-light); margin-bottom: 25px;">
+                        <div class="info-title" style="font-size: 18px; font-weight: 700; color: var(--text-dark); margin-bottom: 15px;">
+                            Property Boundary Information
+                        </div>
+                        <div class="boundary-details" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="detail-item" style="background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid var(--border-light);">
+                                <div class="detail-label" style="font-size: 14px; color: var(--text-light); margin-bottom: 5px;">Total Area</div>
+                                <div class="detail-value" style="font-size: 18px; font-weight: 700; color: var(--text-dark);">300 m²</div>
+                            </div>
+                            <div class="detail-item" style="background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid var(--border-light);">
+                                <div class="detail-label" style="font-size: 14px; color: var(--text-light); margin-bottom: 5px;">Boundary Status</div>
+                                <div class="detail-value" style="font-size: 18px; font-weight: 700; color: var(--primary-green);">Verified</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="check-button" style="width: 100%; background: linear-gradient(135deg, var(--primary-green-dark) 0%, var(--primary-green-light) 100%); color: white; padding: 15px; border-radius: var(--radius-medium); font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; font-size: 16px; margin-bottom: 25px;">
+                        Run Boundary Check
+                    </button>
+                    
+                    <div class="info-section" style="background: #f0f9ff; border-radius: var(--radius-medium); padding: 20px; border: 1px solid #bae6fd;">
+                        <div class="info-title" style="font-size: 18px; font-weight: 700; color: var(--text-dark); margin-bottom: 15px; display: flex; align-items: center;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="margin-right: 10px; color: #0ea5e9;">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                <path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            About Boundary Checking
+                        </div>
+                        <p style="color: var(--text-medium); line-height: 1.6; margin-bottom: 15px;">
+                            Our boundary checking system uses GPS coordinates and blockchain verification to ensure accurate property boundaries.
+                        </p>
+                        <ul style="padding-left: 20px; color: var(--text-medium);">
+                            <li style="margin-bottom: 10px;">Verifies property boundaries against official records</li>
+                            <li style="margin-bottom: 10px;">Detects potential boundary disputes</li>
+                            <li style="margin-bottom: 10px;">Provides legal documentation for boundary agreements</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Property Detail Screen -->
         <div class="screen" id="property-detail">
             <div class="profile-header">
@@ -1428,6 +1559,7 @@
 
         // Add event listeners
         document.addEventListener('DOMContentLoaded', function() {
+            // Navigation items
             const navItems = document.querySelectorAll('.nav-item');
             navItems.forEach(item => {
                 item.addEventListener('click', function() {
@@ -1436,23 +1568,111 @@
                 });
             });
             
+            // Quick action cards on home screen
             const actionCards = document.querySelectorAll('.action-card');
             actionCards.forEach((card, index) => {
-                if (index === 1) {
-                    card.addEventListener('click', () => showScreen('market'));
-                }
+                card.addEventListener('click', () => {
+                    // Index 0 = Scan, 1 = Market, 2 = Transfer
+                    switch(index) {
+                        case 0:
+                            showScreen('scanner');
+                            break;
+                        case 1:
+                            showScreen('market');
+                            break;
+                        case 2:
+                            showScreen('transfer');
+                            break;
+                        default:
+                            showScreen('home');
+                    }
+                });
             });
             
+            // Dashboard action items
             const actionItems = document.querySelectorAll('.action-item');
             actionItems.forEach((item, index) => {
-                if (index === 1) {
-                    item.addEventListener('click', () => showScreen('market'));
-                }
+                item.addEventListener('click', () => {
+                    // Index 0 = Scan, 1 = Market, 2 = Transfer, 3 = Boundary
+                    switch(index) {
+                        case 0:
+                            showScreen('scanner');
+                            break;
+                        case 1:
+                            showScreen('market');
+                            break;
+                        case 2:
+                            showScreen('transfer');
+                            break;
+                        case 3:
+                            showScreen('boundary');
+                            break;
+                        default:
+                            showScreen('dashboard');
+                    }
+                });
             });
             
-            const backButton = document.querySelector('.back-button');
-            if (backButton) {
-                backButton.addEventListener('click', () => showScreen('home'));
+            // Back buttons
+            const backButtons = document.querySelectorAll('.back-button');
+            backButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Check if it's the property detail back button
+                    if (button.id === 'back-to-market') {
+                        showScreen('market');
+                    } else {
+                        showScreen('home');
+                    }
+                });
+            });
+            
+            // Profile menu items
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach((item, index) => {
+                item.addEventListener('click', () => {
+                    // Show alert with the selected menu item
+                    const menuText = item.querySelector('.menu-text').textContent;
+                    alert(`${menuText} functionality would be implemented here.`);
+                });
+            });
+            
+            // Property detail action buttons
+            const contactAgentButton = document.querySelector('.action-button');
+            if (contactAgentButton) {
+                contactAgentButton.addEventListener('click', () => {
+                    alert('Contacting agent functionality would be implemented here.');
+                });
+            }
+            
+            const requestViewingButton = document.querySelector('.action-button.primary');
+            if (requestViewingButton) {
+                requestViewingButton.addEventListener('click', () => {
+                    alert('Request viewing functionality would be implemented here.');
+                });
+            }
+            
+            // Scanner button
+            const scanButton = document.querySelector('.scan-button');
+            if (scanButton) {
+                scanButton.addEventListener('click', () => {
+                    alert('Scanning property certificate...\n\nIn a real implementation, this would access the device camera to scan QR codes or barcodes.');
+                });
+            }
+            
+            // Transfer button
+            const transferButton = document.querySelector('.transfer-button');
+            if (transferButton) {
+                transferButton.addEventListener('click', () => {
+                    alert('Initiating property transfer...\n\nIn a real implementation, this would start the blockchain-based property transfer process.');
+                });
+            }
+            
+            // Boundary check button
+            const checkButton = document.querySelector('.check-button');
+            if (checkButton) {
+                checkButton.addEventListener('click', () => {
+                    alert('Running boundary check...\n\nIn a real implementation, this would verify property boundaries using GPS and blockchain data.');
+                });
             }
             
             // Add click event to home screen property cards
@@ -1462,12 +1682,6 @@
                     showPropertyDetail(index);
                 });
             });
-            
-            // Add click event to back button in property detail screen
-            const backToMarketButton = document.getElementById('back-to-market');
-            if (backToMarketButton) {
-                backToMarketButton.addEventListener('click', () => showScreen('market'));
-            }
             
             renderProperties();
         });

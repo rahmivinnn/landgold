@@ -1405,16 +1405,16 @@
     <script>
         // Property data with 100 properties
         const properties = [
-            {title: "Villa Mewah Jakarta Selatan", price: "Rp 2.500.000.000", location: "Kebayoran Baru, Jakarta", area: "300 m²", image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400", verified: true, status: "Available"},
-            {title: "Tanah Komersial Bandung", price: "Rp 1.800.000.000", location: "Dago, Bandung", area: "500 m²", image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400", verified: true, status: "Available"},
-            {title: "Rumah Minimalis Surabaya", price: "Rp 950.000.000", location: "Gubeng, Surabaya", area: "120 m²", image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=400", verified: false, status: "Under Offer"},
-            {title: "Apartemen Mewah Jakarta Pusat", price: "Rp 3.200.000.000", location: "Sudirman, Jakarta", area: "150 m²", image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400", verified: true, status: "Available"},
-            {title: "Ruko Strategis Medan", price: "Rp 1.200.000.000", location: "Medan Kota, Medan", area: "200 m²", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400", verified: true, status: "Available"},
-            {title: "Villa Pantai Bali", price: "Rp 4.500.000.000", location: "Seminyak, Bali", area: "400 m²", image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400", verified: true, status: "Available"},
-            {title: "Tanah Kavling Bogor", price: "Rp 800.000.000", location: "Sentul, Bogor", area: "600 m²", image: "https://images.unsplash.com/photo-1448630360428-65456885c650?w=400", verified: false, status: "Available"},
-            {title: "Rumah Cluster Bekasi", price: "Rp 750.000.000", location: "Harapan Indah, Bekasi", area: "90 m²", image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400", verified: true, status: "Sold"},
-            {title: "Gedung Perkantoran Yogya", price: "Rp 5.000.000.000", location: "Malioboro, Yogyakarta", area: "800 m²", image: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=400", verified: true, status: "Available"},
-            {title: "Kondominium Semarang", price: "Rp 1.100.000.000", location: "Simpang Lima, Semarang", area: "110 m²", image: "https://images.unsplash.com/photo-1515263487990-61b07816b924?w=400", verified: false, status: "Under Offer"}
+            {title: "Villa Mewah Jakarta Selatan", price: "Rp 2.500.000.000", location: "Kebayoran Baru, Jakarta", area: "300 m²", image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400", verified: true, status: "Available", description: "Luxurious villa located in the heart of South Jakarta. This beautiful property features 5 bedrooms, a private swimming pool, and stunning views of the city. Perfect for families seeking comfort and elegance in a prime location."},
+            {title: "Tanah Komersial Bandung", price: "Rp 1.800.000.000", location: "Dago, Bandung", area: "500 m²", image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400", verified: true, status: "Available", description: "Prime commercial land in the prestigious Dago area of Bandung. Ideal for developing office buildings, shopping centers, or luxury residential complexes. Located near universities and business districts, ensuring high visibility and accessibility."},
+            {title: "Rumah Minimalis Surabaya", price: "Rp 950.000.000", location: "Gubeng, Surabaya", area: "120 m²", image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=400", verified: false, status: "Under Offer", description: "Modern minimalist house in the upscale Gubeng neighborhood of Surabaya. Features 3 bedrooms, 2 bathrooms, and an open-plan living area. Close to schools, hospitals, and shopping centers, making it perfect for young professionals and families."},
+            {title: "Apartemen Mewah Jakarta Pusat", price: "Rp 3.200.000.000", location: "Sudirman, Jakarta", area: "150 m²", image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400", verified: true, status: "Available", description: "Luxury apartment in the prestigious Sudirman district of Central Jakarta. Offers breathtaking panoramic city views, premium amenities including a gym, swimming pool, and 24-hour security. Perfect for executives and investors seeking the finest urban living experience."},
+            {title: "Ruko Strategis Medan", price: "Rp 1.200.000.000", location: "Medan Kota, Medan", area: "200 m²", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400", verified: true, status: "Available", description: "Strategic shophouse located in the bustling Medan City area. Prime location with high foot traffic, perfect for retail businesses, restaurants, or offices. Features two floors of commercial space with excellent visibility and accessibility."},
+            {title: "Villa Pantai Bali", price: "Rp 4.500.000.000", location: "Seminyak, Bali", area: "400 m²", image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400", verified: true, status: "Available", description: "Stunning beachfront villa in the exclusive Seminyak area of Bali. Direct access to the pristine beach, featuring 6 bedrooms, infinity pool, and tropical gardens. Perfect for vacation rentals or a luxurious permanent residence in paradise."},
+            {title: "Tanah Kavling Bogor", price: "Rp 800.000.000", location: "Sentul, Bogor", area: "600 m²", image: "https://images.unsplash.com/photo-1448630360428-65456885c650?w=400", verified: false, status: "Available", description: "Large plot of land in the scenic Sentul area of Bogor, surrounded by hills and nature. Ideal for building a private residence,度假村, or organic farm. Peaceful environment away from the city bustle, yet conveniently located near Jakarta."},
+            {title: "Rumah Cluster Bekasi", price: "Rp 750.000.000", location: "Harapan Indah, Bekasi", area: "90 m²", image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400", verified: true, status: "Sold", description: "Well-designed cluster house in the established Harapan Indah area of Bekasi. Features 2 bedrooms, 1 bathroom, and a cozy garden. Located within a secure complex with 24-hour security, recreational facilities, and easy access to Jakarta."},
+            {title: "Gedung Perkantoran Yogya", price: "Rp 5.000.000.000", location: "Malioboro, Yogyakarta", area: "800 m²", image: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=400", verified: true, status: "Available", description: "Premium office building located in the iconic Malioboro shopping district of Yogyakarta. Features 6 floors of prime office space, modern facilities, and high visibility. Perfect for companies looking to establish a strong presence in this culturally rich city."},
+            {title: "Kondominium Semarang", price: "Rp 1.100.000.000", location: "Simpang Lima, Semarang", area: "110 m²", image: "https://images.unsplash.com/photo-1515263487990-61b07816b924?w=400", verified: false, status: "Under Offer", description: "Modern condominium in the central Simpang Lima area of Semarang. Features contemporary design, quality finishes, and convenient access to business districts and entertainment venues. Comes with parking space and access to shared facilities."}
         ];
 
         // Generate 90 more properties
@@ -1462,6 +1462,40 @@
                 image = images[Math.floor(Math.random() * images.length)];
             }
             
+            // Generate property description based on type and location
+            let description = "";
+            switch(type) {
+                case "Villa":
+                    description = `Beautiful villa in ${city} offering luxury living with spacious rooms and elegant design. Perfect for families seeking comfort and sophistication in ${area}.`;
+                    break;
+                case "Rumah":
+                    description = `Comfortable house in ${city} located in the ${area} area. Ideal for families with modern amenities and convenient access to local facilities.`;
+                    break;
+                case "Apartemen":
+                    description = `Modern apartment in ${city} with contemporary design and premium facilities. Located in ${area} with easy access to business districts and entertainment.`;
+                    break;
+                case "Tanah":
+                    description = `Valuable land parcel in ${city} situated in the ${area} region. Great opportunity for development or investment in this growing area.`;
+                    break;
+                case "Ruko":
+                    description = `Strategic shophouse in ${city} with high visibility in ${area}. Perfect for retail businesses, restaurants, or professional offices.`;
+                    break;
+                case "Gedung":
+                    description = `Commercial building in ${city} located in the ${area} business district. Offers flexible space suitable for various business needs.`;
+                    break;
+                case "Kondominium":
+                    description = `Contemporary condominium in ${city} with modern amenities and security. Located in ${area} with convenient access to transportation and services.`;
+                    break;
+                case "Townhouse":
+                    description = `Charming townhouse in ${city} featuring a blend of privacy and community living. Situated in ${area} with well-planned infrastructure.`;
+                    break;
+                case "Cluster":
+                    description = `Cluster housing development in ${city} offering a secure and comfortable living environment. Located in ${area} with recreational facilities.`;
+                    break;
+                default:
+                    description = `Premium property in ${city} located in the ${area} area. Offers excellent investment potential and quality living experience.`;
+            }
+            
             properties.push({
                 title: `${type} ${city} ${area}`,
                 price: `Rp ${price.toLocaleString('id-ID')}`,
@@ -1469,7 +1503,8 @@
                 area: `${size} m²`,
                 image: image,
                 verified: verified,
-                status: status
+                status: status,
+                description: description
             });
         }
 
@@ -1546,6 +1581,9 @@
             document.getElementById('detail-location').querySelector('span').textContent = property.location;
             document.getElementById('detail-area').textContent = property.area;
             document.getElementById('detail-status').textContent = property.status;
+            
+            // Update property description
+            document.getElementById('detail-description').textContent = property.description;
             
             // Set status color
             const statusElement = document.getElementById('detail-status').closest('.feature-card');
